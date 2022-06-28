@@ -1,0 +1,78 @@
+:root{
+    --primary-color : #EBAE34;
+    --primary-blur-color : rgba(235, 174, 52, 0.5);
+    --white-color : #FFFFFF;
+}
+
+
+
+.container{
+    margin : 0 auto;
+    width:500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    font-family: maplestory_bold;
+    font-size : 52px;
+    margin-top: 60px;
+    color: var(--primary-color);
+}
+
+input{
+    width:500px;
+    margin-top:20px;
+    padding : 10px;
+    font-size: 24px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    color: var(--primary-color);
+}
+
+input::placeholder{
+    color: var(--primary-blur-color);
+}
+
+.inputEmail{
+    margin-top:45px;
+}
+
+.link{
+    margin-top:10px;
+    margin-left : auto;
+    color: var(--primary-color);
+}
+
+button{
+    border-radius: 10px;
+    font-size:28px;
+    color:var(--white-color);
+    background-color: var(--primary-color);
+    border: none;
+    width:500px;
+    height: 60px;
+}
+
+.loginBtn{
+    margin-top: 45px;
+}
+
+.signUpBtn{
+    background-color: var(--white-color);
+    border: 2px solid var(--primary-color);
+    color:var(--primary-color);
+}
+
+.line{
+    border: 1px solid var(--primary-blur-color);
+    width:500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+
