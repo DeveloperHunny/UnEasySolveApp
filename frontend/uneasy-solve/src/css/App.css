@@ -26,3 +26,7 @@ button:hover{
 h1{
     font-family: maplestory_bold;
 }
+
+input:focus{
+    outline: none;
+}

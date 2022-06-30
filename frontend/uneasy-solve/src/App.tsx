@@ -1,10 +1,11 @@
 import React, {ChangeEvent, useState} from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import MainPage from "./MainPage";
-import LoginPage from "./LoginPage";
-import SignUpPage from "./SignUpPage";
+import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/signUp/SignUpPage";
 import "./css/App.css";
-import FindAccountPage from "./FindAccountPage";
+import FindAccountPage from "./pages/FindAccountPage";
+import TestPage from "./pages/test/TestPage";
 
 const NotFound = () => {
     return(
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/signUp" element={<SignUpPage/>}/>
                 <Route path="/findAccount" element={<FindAccountPage/>}/>
+                <Route path="/test" element={<TestPage/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </BrowserRouter>

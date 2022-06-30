@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import styles from "./css/LoginPage.module.css"
+import styles from "../css/LoginPage.module.css";
 
 const LoginPage = () => {
 
@@ -18,7 +18,7 @@ const LoginPage = () => {
     }
 
     const onClickSignUpBtn = () => {
-        navigate("/SignUp");
+        navigate("/signUp");
     }
 
     return(

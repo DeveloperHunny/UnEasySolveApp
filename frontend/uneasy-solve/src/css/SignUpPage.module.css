@@ -1,0 +1,98 @@
+:root{
+    --primary-color : #EBAE34;
+    --primary-blur-color : rgba(235, 174, 52, 0.5);
+    --white-color : #FFFFFF;
+}
+
+
+
+.container{
+    margin : 0 auto;
+    width:500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    font-family: maplestory_bold;
+    font-size : 60px;
+    margin-top: 60px;
+    color: var(--primary-color);
+}
+
+input[type = "text"], input[type = "password"], input[type = "number"]{
+    width:500px;
+    margin-top:20px;
+    padding : 15px;
+    font-size: 24px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    color: var(--primary-color);
+}
+
+input::placeholder{
+    color: var(--primary-blur-color);
+}
+
+.inputEmail{
+    margin-top:45px;
+}
+
+.link{
+    margin-top:10px;
+    margin-left : auto;
+    color: var(--primary-color);
+}
+.line{
+    border: 1px solid var(--primary-blur-color);
+    width:500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+input[type = "radio"], input[type = "radio"]:checked{
+    margin:0px;
+    appearance: none;
+    width : 25px;
+    height: 25px;
+    border-radius: 100%;
+    margin-left: 5px;
+    color : var(--primary-color);
+    border : 3px solid var(--primary-color);
+}
+
+input[type='radio']:checked{
+    background-color: var(--primary-color);
+}
+
+.radioWrap{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+select{
+    width:500px;
+    margin-top:20px;
+    padding : 15px;
+    font-size: 24px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    color: var(--primary-color);
+
+    background: url("../images/arrow-down.png") no-repeat 95% 50%;
+
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select option[value=""][disabled]{
+    display: none;
+}
+
+
+
