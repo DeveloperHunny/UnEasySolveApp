@@ -94,5 +94,9 @@ select option[value=""][disabled]{
     display: none;
 }
 
+button[type='submit']:disabled{
+    background-color: var(--primary-blur-color);
+}
+
 
 

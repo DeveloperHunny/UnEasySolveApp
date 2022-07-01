@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useRef, useState} from "react";
+import React, {ChangeEvent, FC, FormEvent, useEffect, useRef, useState} from "react";
 import styles from "../../css/SignUpPage.module.css";
 import {Interface} from "readline";
 import {useDaumPostcodePopup} from "react-daum-postcode";
@@ -22,7 +22,7 @@ const SignUpPage = () => {
 
 
     const jobArr = ["학생", "사무직", "영업직", "IT계열", "교육계열", "공무원", "기술자", "기타"];
-    const [check, setCheck] = useState({ 'email' : false, 'pw' : false, 'pwCheck' : false, 'nickname' : false, 'address' : false, 'phone' : false});
+    const [check, setCheck] = useState({ 'email' : false, 'pw' : false, 'pwCheck' : false, 'nickname' : false, 'address' : false, 'phone' : true});
 
 
 
@@ -93,18 +93,43 @@ const SignUpPage = () => {
     const handleComplete = (data : any) => {
         // data.bname & data.buildingName 등등 더 여러 정보 있음. 다른 정보 필요하면 찾아볼 것
         setAddress(data.address);
+        setCheck({...check, address: true});
         console.log(address);
     }
     const openPopup = () => {
         open({ popupTitle: '우편번호 검색 팝업', popupKey: 'popup1', onComplete : handleComplete});
     }
 
+    const handleSubmit = (e : FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        //TODO( 서버와 데이터 비교를 통해 로그인 성공 or 실패 진행)
+   }
+
+
+   const validation = useRef(false);
+
+   const formValidate = () => {
+       let isValid = true;
+       Object.entries(check).forEach((entry, idx) => {
+          if(entry[1] === false){isValid = false; return false;}
+       });
+
+       validation.current = isValid;
+   }
+
+   useEffect(() => {
+
+       formValidate();
+
+   },[check]);
+
+
 
 
 
     return(
         <div>
-            <form className={styles.container}>
+            <form className={styles.container} onSubmit={handleSubmit}>
                 <h1 className={styles.title}>회원가입</h1>
                 <div className={styles.require} style={{ marginTop : "45px"}}>
                     <span style={{ color: "#EBAE34", fontSize:"18px"}}>회원 정보를 입력해주세요.</span>
@@ -156,11 +181,9 @@ const SignUpPage = () => {
                 </div>
 
 
-                <button type="submit" style={{ marginTop:"50px"}} >회원가입</button>
+                <button type="submit" style={{ marginTop:"50px"}} disabled={!validation.current} >회원가입</button>
 
             </form>
-
-
         </div>
     )
 }
