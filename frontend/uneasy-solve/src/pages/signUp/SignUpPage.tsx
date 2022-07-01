@@ -106,7 +106,7 @@ const SignUpPage = () => {
    }
 
 
-   const validation = useRef(false);
+   const [validation, setValidation] = useState(false);
 
    const formValidate = () => {
        let isValid = true;
@@ -114,12 +114,14 @@ const SignUpPage = () => {
           if(entry[1] === false){isValid = false; return false;}
        });
 
-       validation.current = isValid;
+       setValidation(isValid);
    }
 
    useEffect(() => {
-
        formValidate();
+       Object.entries(check).forEach((entry) => {
+           console.log(entry);
+       });
 
    },[check]);
 
@@ -181,7 +183,7 @@ const SignUpPage = () => {
                 </div>
 
 
-                <button type="submit" style={{ marginTop:"50px"}} disabled={!validation.current} >회원가입</button>
+                <button type="submit" style={{ marginTop:"50px"}} disabled={!validation} >회원가입</button>
 
             </form>
         </div>
