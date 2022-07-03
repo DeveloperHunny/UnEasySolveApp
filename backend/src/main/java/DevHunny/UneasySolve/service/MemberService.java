@@ -2,12 +2,20 @@ package DevHunny.UneasySolve.service;
 
 import DevHunny.UneasySolve.domain.Member;
 import DevHunny.UneasySolve.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -19,8 +27,13 @@ public class MemberService {
 
     public Long join(Member member){
         validationInput(member);
-        memberRepository.save(member);
-        return member.getId();
+        try{
+            memberRepository.save(member);
+            return member.getId();
+        }
+        catch (PersistenceException e){
+            System.out.println("THIS IS ERROR");
+            return null; }
     }
 
     private void validationInput(Member member) {
@@ -29,8 +42,9 @@ public class MemberService {
 
     public Member tryLogin(Member member){
         Member findOne = memberRepository.findOneByEmail(member.getEmail());
+
         if(findOne == null) return null;
-        if(findOne.getPassword() != member.getPassword()) return null;
+        if(!findOne.getPassword().equals(member.getPassword())) return null;
 
         return findOne;
     }

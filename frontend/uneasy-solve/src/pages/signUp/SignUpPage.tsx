@@ -1,10 +1,12 @@
 import React, {ChangeEvent, FC, FormEvent, useEffect, useRef, useState} from "react";
 import styles from "../../css/SignUpPage.module.css";
-import {Interface} from "readline";
 import {useDaumPostcodePopup} from "react-daum-postcode";
-import Postcode from "../test/PostCode";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const SignUpPage = () => {
+
+    const navigate = useNavigate();
 
     // === 필수 입력 사항들 ===
     const [email, setEmail] = useState<string>("");
@@ -100,9 +102,24 @@ const SignUpPage = () => {
         open({ popupTitle: '우편번호 검색 팝업', popupKey: 'popup1', onComplete : handleComplete});
     }
 
-    const handleSubmit = (e : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //TODO( 서버와 데이터 비교를 통해 로그인 성공 or 실패 진행)
+
+        let result = await axios.post("/api/members/join",
+            {
+               email : email,
+               password : password,
+               nickname : nickname,
+               address : address,
+
+               sex : sex,
+               age : age,
+               jobCode : null, //추후에 바꾸자.
+               phoneNumber : phone
+            });
+
+        if(result == null){ alert("회원가입에 실패하셨습니다.");}
+        else{ navigate("/login"); alert("회원가입에 성공하셨습니다."); }
    }
 
 

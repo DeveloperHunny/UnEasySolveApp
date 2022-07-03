@@ -1,20 +1,32 @@
 import React, {ChangeEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import styles from "../css/LoginPage.module.css";
+import axios from "axios";
 
 const LoginPage = () => {
 
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
 
-    const handleEmail = (e : ChangeEvent<HTMLInputElement>) => {setEmail(email);}
-    const handlePW = (e : ChangeEvent<HTMLInputElement>) => {setPassword(password);}
+    const handleEmail = (e : ChangeEvent<HTMLInputElement>) => {setEmail(e.target.value);}
+    const handlePW = (e : ChangeEvent<HTMLInputElement>) => {setPassword(e.target.value);}
 
     const navigate = useNavigate();
 
-    const onClickLoginBtn = () => {
-        //TODO(로그인 버튼 클릭 시 format 확인 후 -> 로그인 성공 시 메인 페이지로 이동 실패 시 알람 보내기)
-        navigate("/");
+    const onClickLoginBtn = async () => {
+        console.log( email , password);
+        let result = await axios.post("/api/members/login",
+            { email : email, password : password}
+        )
+        console.log(result.data);
+        if(result.data.email == null){
+            alert("로그인에 실패하셨습니다.");
+            //TODO(추후에 로그인 실패 기능 발전시키기)
+        }
+        else{
+            navigate("/");
+        }
+
     }
 
     const onClickSignUpBtn = () => {

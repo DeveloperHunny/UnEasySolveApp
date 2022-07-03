@@ -1,41 +1,32 @@
 package DevHunny.UneasySolve.repository;
 
 import DevHunny.UneasySolve.domain.Member;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.juli.logging.Log;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
-@Slf4j
 class MemberRepositoryTest {
 
     @Autowired private EntityManager em;
     @Autowired private MemberRepository memberRepository;
 
 
-//    @AfterEach
-//    public void afterEach(){
-//        em.clear();
-//    }
-
-
     @Test
-    public void 회원저장() throws Exception {
+    public void 회원가입() throws Exception {
         //given
         Member newMember = new Member();
         newMember.setEmail("eogns0321@gmail.com");
@@ -50,6 +41,32 @@ class MemberRepositoryTest {
         Member member = em.find(Member.class, newMember.getId());
         assertThat(member.getEmail()).isEqualTo(newMember.getEmail());
 
+    }
+
+    @Test
+    public void 회원가입_중복정() throws Exception {
+        //given
+        Member newMember = new Member();
+        newMember.setEmail("test");
+        newMember.setPassword("test");
+        newMember.setNickname("test");
+        newMember.setAddress("test");
+
+        memberRepository.save(newMember);
+        em.flush();
+
+        Member duplicateMember = new Member();
+        duplicateMember.setEmail("test");
+        duplicateMember.setPassword("test");
+        duplicateMember.setNickname("test");
+        duplicateMember.setAddress("test");
+
+
+        //when
+        RuntimeException error = assertThrows(PersistenceException.class, () -> {
+            memberRepository.save(duplicateMember);
+            em.flush();
+        });
     }
 
     @Test
@@ -68,6 +85,18 @@ class MemberRepositoryTest {
 
         //then
         assertThat(findOne.getNickname()).isEqualTo(newMember.getNickname());
+    }
+
+    @Test
+    public void 회원찾기_이메일_오류() throws Exception {
+        //given
+        //No member insert
+
+        //when
+        Member findOne = memberRepository.findOneByEmail("Wrong Email");
+
+        //then
+        assertThat(findOne).isEqualTo(null);
     }
 
     @Test

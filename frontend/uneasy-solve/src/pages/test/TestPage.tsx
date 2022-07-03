@@ -1,61 +1,39 @@
-// import React, {useState} from "react";
-// import PopupPostCode from "./PopupPostCode";
-// import PopupDom from "./PopupDom";
-//
-// const TestPage = () => {
-//
-//     const [popup, setPopup] = useState(false);
-//
-//     const openPopup = () => {setPopup(true);}
-//
-//     const closePopup = () => {setPopup(false);}
-//
-//     return(
-//         <div>
-//
-//             <button onClick={openPopup}> 우편 번호 검색 </button>
-//
-//             <div id="popupDom">
-//                 {popup &&
-//                     <PopupDom>
-//                         <PopupPostCode onClose={closePopup} />
-//                     </PopupDom>
-//                 }
-//             </div>
-//
-//         </div>
-//     )
-// }
-//
+import axios from 'axios';
+import React, {FormEvent, useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
-
-import React, {useState} from 'react';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 const TestPage = () => {
-    const open = useDaumPostcodePopup();
-    const [address, setAddress] = useState("주소");
 
-    const handleComplete = (data : any) => {
-        console.log(data.address);
-        setAddress(data.address);
+    const [email, setEmail] = useState<string>();
+    const [password, setPW] = useState<string>();
+    const navigate = useNavigate();
 
-    };
+    const handleSubmit = async (e : FormEvent) => {
+        e.preventDefault();
 
-    const handleClick = () => {
-        open({ popupTitle: '우편번호 검색 팝업', popupKey: 'popup' ,onComplete: handleComplete });
-    };
+        let result = await axios.post("/api/members/login", {
+            email : email,
+            password : password
+        });
 
-    return (
+        console.log(result.data);
+
+        if(result.data.email == null) alert(" 로그인 실패 !!!");
+        else{
+            navigate("/")
+        }
+    }
+
+    return(
         <>
-            <button type='button' onClick={handleClick}>
-                Open
-            </button>
-
-            <h1> {address}</h1>
+            <form onSubmit={handleSubmit}>
+                <input type="text" placeholder="EMAIL" onChange={(e) => {setEmail(e.target.value)}}/>
+                <input type="password" placeholder="PASSWORD" onChange={(e) => {setPW(e.target.value)}}/>
+                <button type="submit">LOGIN</button>
+            </form>
         </>
+    )
+}
 
-    );
-};
-
-export default TestPage;
+export default TestPage
